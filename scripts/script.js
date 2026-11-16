@@ -23,8 +23,12 @@ themeButtons.forEach((button) => {
 });
 
 function changeTheme(theme) {
-  document.body.className = 'page';
-  document.body.classList.add(`theme_${theme}`);
+  document.documentElement.classList.remove(
+    'theme-light',
+    'theme-dark',
+    'theme-auto'
+  );
+  document.documentElement.classList.add(`theme-${theme}`);
   localStorage.setItem('theme', theme);
 }
 

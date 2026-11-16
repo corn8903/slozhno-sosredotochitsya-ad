@@ -5,6 +5,7 @@
   font-size: var(--main-font-size);
   color: var(--main-text-color);
   line-height: var(--main-line-height);
+  overflow-wrap: anywhere;
 
   background-image: var(--bg-image);
   background-repeat: no-repeat;
@@ -26,6 +27,7 @@
   height: 100vh;
   min-height: 668px;
   position: relative;
+  container-type: inline-size;
 }
 
 .decorated-zone::before {
@@ -68,14 +70,14 @@
 
 .header__theme-menu-button {
   color: var(--button-color);
-  padding: 1.5px 13px;
-  border: none;
+  padding: 0.5px 12px;
+  border: 1px solid transparent;
   background-color: transparent;
   cursor: pointer;
 }
 
 .header__theme-menu-button:hover {
-  outline: 1px solid var(--button-hover-border);
+  border-color: var(--button-hover-border);
 }
 
 .header__theme-menu-button:focus {
@@ -87,15 +89,20 @@
 }
 
 .header__theme-menu-button_active {
-  outline: 1px solid var(--button-color);
+  border-color: var(--button-color);
   pointer-events: none;
 }
 
 .title {
   color: var(--main-header-color);
-  font-size: clamp(7.25rem, 7.0115rem + 1.0178vw, 7.5rem);
+  /* На узких экранах учитываем ширину контейнера и место для тени. */
+  font-size: min(
+    clamp(7.25rem, 7.0115rem + 1.0178vw, 7.5rem),
+    calc((100cqi - 4px) / 3)
+  );
   line-height: 82.5%;
   font-weight: var(--header-weight);
+  overflow-wrap: normal;
 }
 
 .header__title {
@@ -162,9 +169,7 @@
   grid-template-rows: min-content auto;
 }
 
-.header__description,
-.section__article-list > .section__header,
-.article__header {
+.title-decor {
   color: var(--article-header-color);
   background-color: var(--article-bg-color);
   font-size: var(--main-font-size);
@@ -172,7 +177,7 @@
   line-height: var(--main-line-height);
 }
 
-.how .article .article__header {
+.article__header_regular {
   font-weight: var(--text-weight);
 }
 
@@ -227,12 +232,6 @@
 
 /* Медиа запросы */
 @media (width >= 768px) {
-  :root {
-    --main-padding: 20px;
-    --main-content-vertical-padding: 60px;
-    --sections-gap: 80px;
-  }
-
   .why,
   .how {
     grid-template-columns: 1fr 2fr;
@@ -259,6 +258,10 @@
     width: calc(100% / 2);
   }
 
+  .article__images {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .article__images-image:first-child {
     grid-column: span 2;
   }
@@ -272,7 +275,7 @@
   }
 
   .article__images-image:nth-child(5) {
-    grid-row: 3/3;
+    grid-row: 3;
     grid-column: 2/4;
   }
 }
